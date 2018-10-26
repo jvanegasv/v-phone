@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { View, Platform, PermissionsAndroid} from 'react-native';
+import { View } from 'react-native';
 import { Content, Item, Input, Button, H2, Grid, Row, Col, Text, Icon, Left, Right, Toast, Picker, Card, CardItem, Body} from 'native-base';
 
 import Modal from "react-native-modal";
 
 import HeaderComponent from '../components/HeaderComponent';
-import LoadingComponent from '../components/LoadingComponent';
-
-import { NetworkInfo } from 'react-native-network-info';
 
 import { connect } from 'react-redux';
 import { epPjsipAccount, epPjsipOtherState } from '../store/Actions';
@@ -35,40 +32,7 @@ class PhoneScreen2 extends Component {
     
     componentDidMount() {
 
-        NetworkInfo.getIPAddress(ip => {
-            if (ip.search('169.254.') >= 0) {
-                this.setState({ipv6: true});
-                this.props.epPjsipOtherState({_whatToShow: 'error'});
-            } else {
-                this.checkPermissions();
-            }
-        });        
-
-    }
-
-    checkPermissions = async () => {
-
-        hasRecordAudioPermissions = false;
-
-        if (Platform.OS !== 'ios') {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-                {
-                    'title': 'V-Phone mic permission',
-                    'message': 'V-Phone App needs access to your mic to make phone calls'
-                }
-            )
-
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                hasRecordAudioPermissions = true;
-            } 
-        } else {
-            hasRecordAudioPermissions = true;
-        }
-
-        if (hasRecordAudioPermissions) {
-            this.pjsipInit();
-        }
+        this.pjsipInit();
 
     }
 
@@ -83,57 +47,6 @@ class PhoneScreen2 extends Component {
 
         this.setState({showModal: true});
 
-    }
-
-    //done
-    cancelCall = () => {
-
-        this.props.endpoint.pjsip.declineCall(this.props.endpoint.call);
-
-    }
-    //done
-    endCall = () => {
-
-        this.props.endpoint.pjsip.hangupCall(this.props.endpoint.call);
-
-    }
-
-    //done
-    muteOnOff = () => {
-
-        if (!this.props.endpoint.mute) {
-            this.props.endpoint.pjsip.muteCall(this.props.endpoint.call);
-            this.props.epPjsipOtherState({mute: true});
-        } else {
-            this.props.endpoint.pjsip.unMuteCall(this.props.endpoint.call);
-            this.props.epPjsipOtherState({mute: false});
-        }
-
-    }
-
-    //done
-    speakerOnOff = () => {
-
-        if (!this.props.endpoint.speaker) {
-            this.props.endpoint.pjsip.useSpeaker(this.props.endpoint.call);
-            this.props.epPjsipOtherState({speaker: true});
-        } else {
-            this.props.endpoint.pjsip.useEarpiece(this.props.endpoint.call);
-            this.props.epPjsipOtherState({speaker: false});
-        }
-    }
-
-    //done
-    holdOnOff = () => {
-      
-        if (!this.props.endpoint.hold) {
-            this.props.endpoint.pjsip.holdCall(this.props.endpoint.call);
-            this.props.epPjsipOtherState({hold: true});
-        } else {
-            this.props.endpoint.pjsip.unholdCall(this.props.endpoint.call);
-            this.props.epPjsipOtherState({hold: false});
-        }
-        
     }
 
     //done
@@ -160,42 +73,6 @@ class PhoneScreen2 extends Component {
     setCountryCode = (value) => {
 
         this.props.epPjsipOtherState({countryCode: value});
-    }
-
-    //done
-    whatToShow = () => {
-
-        switch(this.props.endpoint._whatToShow){
-            case 'dialpad':
-            return this.showDialPad();
-            case 'error':
-            return this.showError();
-            default:
-            return <LoadingComponent/>
-        }
-
-    }
-
-    showError = () => {
-
-        return (
-            <Card>
-                <CardItem>
-                    <Left>
-                        <Icon name="alert" style={{color:'red'}}/>
-                        <Body>
-                            <Text style={{color:'red'}}>Connection ERROR</Text>
-                        </Body>
-                    </Left>                    
-                </CardItem>
-                <CardItem style={{flexDirection:'column'}}>
-                    <Text>Oops, this is embarrassing, there has been an error contacting our phone server, please check your internet connection.</Text>
-                    <Text/>
-                    <Text>Note: Our phone server does not support for Ipv6 at this time.</Text>
-                </CardItem>
-            </Card>
-        );
-
     }
 
     //done
@@ -388,7 +265,7 @@ class PhoneScreen2 extends Component {
         return (
             <Content>
                 <HeaderComponent title="Phone" toggleDrawer navigation={this.props.navigation}/>
-                { this.whatToShow() }
+                { this.showDialPad() }
                 <View style={{flex: 1,justifyContent: "center",alignItems: "center"}}>
                     <Modal isVisible={this.state.showModal}>
                         <Card>
