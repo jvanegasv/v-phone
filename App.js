@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import codePush from "react-native-code-push";
+
 import { createStore } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // default: localStorage if web, AsyncStorage if react-native
@@ -34,4 +36,8 @@ class App extends Component {
   }
 }
  
+// const codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_START };
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+App = codePush(codePushOptions)(App);
+
 export default App;

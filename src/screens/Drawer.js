@@ -82,7 +82,7 @@ class Drawer extends Component {
                 </View>
                 <Item style={{flexDirection:'column'}}>
                     <H3>V-Phone</H3>
-                    <Text style={{fontSize: 10}}>v1.0.4</Text>
+                    <Text style={{fontSize: 10}}>v1.0.5</Text>
                 </Item>
                 <List
                     dataArray={this.routes}

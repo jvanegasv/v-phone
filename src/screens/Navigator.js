@@ -9,9 +9,9 @@ import CdrScreen from './CdrScreen';
 import ContactsScreen from './ContactsScreen';
 import LoginScreen from './LoginScreen';
 import PhoneScreen from './PhoneScreen';
+import PhoneScreen2 from './PhoneScreen2';
 import RegisterScreen from './RegisterScreen';
 import SettingsScreen from './SettingsScreen';
-// import SmsScreen from './SmsScreen';
 import WelcomeScreen from './WelcomeScreen';
 import RateScreen from './RateScreen';
 import ProfileScreen from './ProfileScreen';
@@ -22,7 +22,7 @@ const loginNavigation = createStackNavigator({
 });
 
 const mainTabsNavigation = createBottomTabNavigator({
-    Phone: PhoneScreen,
+    Phone: PhoneScreen2,
     Cdr: CdrScreen,
     // Sms: SmsScreen,
     Contacts: ContactsScreen

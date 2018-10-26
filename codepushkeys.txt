@@ -1,0 +1,22 @@
+////// IOS ////////
+Jorges-MacBook-Pro-2:v-phone jorgevanegas$ code-push app add V-Phone-ios ios react-native
+Successfully added the "V-Phone-ios" app, along with the following default deployments:
+┌────────────┬──────────────────────────────────────────────────────────────────┐
+│ Name       │ Deployment Key                                                   │
+├────────────┼──────────────────────────────────────────────────────────────────┤
+│ Production │ OXzu7ubwrgTRlEuiZcFSRYuU9cmif92f9ba3-8336-46ff-a9d1-e07071569f0b │
+├────────────┼──────────────────────────────────────────────────────────────────┤
+│ Staging    │ fbR_cOOO1RAHmAx0PYIK-GmeCAR6f92f9ba3-8336-46ff-a9d1-e07071569f0b │
+└────────────┴──────────────────────────────────────────────────────────────────┘
+
+
+///// ANDROID /////////////
+Jorges-MacBook-Pro-2:v-phone jorgevanegas$ code-push app add V-Phone-android android react-native
+Successfully added the "V-Phone-android" app, along with the following default deployments:
+┌────────────┬──────────────────────────────────────────────────────────────────┐
+│ Name       │ Deployment Key                                                   │
+├────────────┼──────────────────────────────────────────────────────────────────┤
+│ Production │ tALzXnik7iJDGvLm7eyHiES8aGhWf92f9ba3-8336-46ff-a9d1-e07071569f0b │
+├────────────┼──────────────────────────────────────────────────────────────────┤
+│ Staging    │ hP34bQgs1oXmgniSlp6IFtTLdA5bf92f9ba3-8336-46ff-a9d1-e07071569f0b │
+└────────────┴──────────────────────────────────────────────────────────────────┘

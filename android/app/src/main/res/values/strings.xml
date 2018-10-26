@@ -1,3 +1,4 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">tALzXnik7iJDGvLm7eyHiES8aGhWf92f9ba3-8336-46ff-a9d1-e07071569f0b</string>
     <string name="app_name">Master Dialer</string>
 </resources>

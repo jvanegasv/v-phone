@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Platform, PermissionsAndroid} from 'react-native';
 import { Content, Item, Input, Button, H2, Grid, Row, Col, Text, Icon, Left, Right, Toast, Picker, Card, CardItem, Body} from 'native-base';
 
+import Modal from "react-native-modal";
+
 import HeaderComponent from '../components/HeaderComponent';
 import LoadingComponent from '../components/LoadingComponent';
 
@@ -10,10 +12,11 @@ import { NetworkInfo } from 'react-native-network-info';
 import { connect } from 'react-redux';
 import { epPjsipAccount, epPjsipOtherState } from '../store/Actions';
 
-class PhoneScreen extends Component {
+class PhoneScreen2 extends Component {
 
     state = {
-        ipv6: false
+        ipv6: false,
+        showModal: false
     }
 
     componentDidUpdate(){
@@ -71,46 +74,14 @@ class PhoneScreen extends Component {
 
     pjsipInit = async () => {
 
-        if (!this.props.endpoint.accountRegistered) {
-
-            console.log('no deberia estar aqui');
-            let configuration = {
-                "name": null,
-                "username": this.props.endpoint.endpoint_username,
-                "domain": "phone.plivo.com",
-                "password": this.props.endpoint.endpoint_pwd,
-                "proxy": null,
-                "transport": null, // Default TCP
-                "regServer": null, // Default wildcard
-                "regTimeout": null, // Default 3600
-                "regHeaders": {
-                    "X-Custom-Header": "Value"
-                },
-                "regContactParams": ";unique-device-token-id=XXXXXXXXX"
-            };
-    
-            this.props.endpoint.pjsip.createAccount(configuration).then((account) => {
-                this.props.epPjsipAccount(account);
-            }).catch((e) => {
-                console.log('Error en creacion de cuenta ',e);
-                this.props.epPjsipOtherState({_whatToShow: 'error'});
-            });
-        }
+        this.props.epPjsipOtherState({_whatToShow: 'dialpad', countryCode: '', callNumber: ''});
 
     }
 
     //done
     makeCall = () => {
 
-        if (this.props.endpoint.callNumber != '' && this.props.endpoint.epStatus == 'onLine') {
-            let options = {
-                headers: {
-                    "P-Assserted-Identity": "Header example",
-                    "X-UA": "React native"
-                }
-            }
-            this.props.endpoint.pjsip.makeCall(this.props.endpoint.account,this.props.endpoint.countryCode + this.props.endpoint.callNumber,{});
-        }
+        this.setState({showModal: true});
 
     }
 
@@ -327,7 +298,7 @@ class PhoneScreen extends Component {
     //done
     showDelete = () => {
 
-        if (this.props.endpoint.callNumber != '' && this.props.endpoint.epCallStatus == 'idle') {
+        if (this.props.endpoint.callNumber != '') {
             return (
                 <Col>
                     <Button transparent info onPress={() => this.deleteCallNumber()}>
@@ -418,6 +389,23 @@ class PhoneScreen extends Component {
             <Content>
                 <HeaderComponent title="Phone" toggleDrawer navigation={this.props.navigation}/>
                 { this.whatToShow() }
+                <View style={{flex: 1,justifyContent: "center",alignItems: "center"}}>
+                    <Modal isVisible={this.state.showModal}>
+                        <Card>
+                            <CardItem header bordered>
+                                <Text>Insufficient balance</Text>
+                            </CardItem>
+                            <CardItem bordered>
+                                <Text>Your current balance is $0.00, please go to Voip-Communications to add more funds to your account</Text>
+                            </CardItem>
+                            <CardItem footer bordered>
+                                <Button block primary onPress={() => this.setState({showModal: false})}>
+                                    <Text>Close</Text>
+                                </Button>
+                            </CardItem>
+                        </Card>
+                    </Modal>
+                </View>
             </Content>
         );
 
@@ -433,4 +421,4 @@ const mapStateToProps = (state) => {
     }
 }
  
-export default connect(mapStateToProps,{ epPjsipAccount, epPjsipOtherState })(PhoneScreen);
+export default connect(mapStateToProps,{ epPjsipAccount, epPjsipOtherState })(PhoneScreen2);
