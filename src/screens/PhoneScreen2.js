@@ -264,7 +264,7 @@ class PhoneScreen2 extends Component {
 
         return (
             <Content>
-                <HeaderComponent title="Phone" toggleDrawer navigation={this.props.navigation}/>
+                <HeaderComponent title="Phone Call" toggleDrawer navigation={this.props.navigation}/>
                 { this.showDialPad() }
                 <View style={{flex: 1,justifyContent: "center",alignItems: "center"}}>
                     <Modal isVisible={this.state.showModal}>

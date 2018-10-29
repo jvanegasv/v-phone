@@ -5,6 +5,7 @@ import { Icon } from 'native-base';
 
 import Drawer from './Drawer';
 
+import BillingScreen from './BillingScreen';
 import CdrScreen from './CdrScreen';
 import ContactsScreen from './ContactsScreen';
 import LoginScreen from './LoginScreen';
@@ -22,7 +23,8 @@ const loginNavigation = createStackNavigator({
 });
 
 const mainTabsNavigation = createBottomTabNavigator({
-    Phone: PhoneScreen2,
+    // Phone: PhoneScreen2,
+    Phone: PhoneScreen,
     Cdr: CdrScreen,
     // Sms: SmsScreen,
     Contacts: ContactsScreen
@@ -58,6 +60,7 @@ const mainTabsNavigation = createBottomTabNavigator({
 const mainNavigation = createDrawerNavigator({
     Home: mainTabsNavigation,
     Rate: RateScreen,
+    Billing: BillingScreen,
     Profile: ProfileScreen,
     Settings: SettingsScreen
 },{
