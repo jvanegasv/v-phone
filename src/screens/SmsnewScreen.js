@@ -4,7 +4,7 @@ import { Header, Left, Right, Body, Button, Icon, Title, Text } from 'native-bas
 
 // import HeaderComponent from '../components/HeaderComponent';
 
-class SmschatScreen extends Component {
+class SmsnewScreen extends Component {
     render() { 
         return (
             <View>
@@ -24,10 +24,10 @@ class SmschatScreen extends Component {
                         </Button>
                     </Right> 
                 </Header>
-                <Text>SmschatScreen</Text>
+                <Text>SmsnewScreen</Text>
             </View>
         );
     }
 }
  
-export default SmschatScreen;
+export default SmsnewScreen;

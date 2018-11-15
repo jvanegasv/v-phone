@@ -15,6 +15,7 @@ import RegisterScreen from './RegisterScreen';
 import SettingsScreen from './SettingsScreen';
 import SmsScreen from './SmsScreen';
 import SmschatScreen from './SmschatScreen';
+import SmsnewScreen from './SmsnewScreen';
 import WelcomeScreen from './WelcomeScreen';
 import RateScreen from './RateScreen';
 import ProfileScreen from './ProfileScreen';
@@ -26,7 +27,8 @@ const loginNavigation = createStackNavigator({
 
 const smsNavigation = createStackNavigator({
     smsSummary: SmsScreen,
-    smsChat: SmschatScreen
+    smsChat: SmschatScreen,
+    smsNew: SmsnewScreen
 },{
     initialRouteName: "smsSummary",
     headerMode: "none"

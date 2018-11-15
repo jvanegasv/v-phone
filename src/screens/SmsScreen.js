@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList} from 'react-native';
-import {Text, Toast, ListItem, Left, Thumbnail, Body, Icon, Fab} from 'native-base';
+import {Text, Toast, ListItem, Left, Thumbnail, Body, Icon, Header, Right, Title, Button} from 'native-base';
 
 import HeaderComponent from '../components/HeaderComponent';
 import LoadingComponent from '../components/LoadingComponent';
@@ -118,16 +118,20 @@ class SmsScreen extends Component {
     render() { 
         return (  
             <View style={{ flex: 1 }}>
-                <HeaderComponent title="Messages" toggleDrawer navigation={this.props.navigation}/>
-                <Fab
-                    active={true}
-                    direction="up"
-                    containerStyle={{ }}
-                    style={{ backgroundColor: '#5067FF' }}
-                    position="bottomRight"
-                    >
-                    <Icon name="create" />
-                </Fab>
+                <Header>
+                    <Left/>
+                    <Body>
+                        <Title>Messages</Title>
+                    </Body>
+                    <Right>
+                        <Button transparent onPress={() => this.props.navigation.navigate('smsNew')}>
+                            <Icon name='create' />
+                        </Button>
+                        <Button transparent onPress={() => this.props.navigation.toggleDrawer()}>
+                            <Icon name='menu' />
+                        </Button>
+                    </Right> 
+                </Header>
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => this.renderSms(item)}
