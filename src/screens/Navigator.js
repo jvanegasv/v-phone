@@ -13,6 +13,7 @@ import PhoneScreen from './PhoneScreen';
 import PhoneScreen2 from './PhoneScreen2';
 import RegisterScreen from './RegisterScreen';
 import SettingsScreen from './SettingsScreen';
+import SmsScreen from './SmsScreen';
 import WelcomeScreen from './WelcomeScreen';
 import RateScreen from './RateScreen';
 import ProfileScreen from './ProfileScreen';
@@ -25,8 +26,8 @@ const loginNavigation = createStackNavigator({
 const mainTabsNavigation = createBottomTabNavigator({
     // Phone: PhoneScreen2,
     Phone: PhoneScreen,
-    Cdr: CdrScreen,
-    // Sms: SmsScreen,
+    Messages: SmsScreen,
+    History: CdrScreen,
     Contacts: ContactsScreen
 },
 {
@@ -38,7 +39,10 @@ const mainTabsNavigation = createBottomTabNavigator({
             case "Phone":
             iconName = 'call';
             break;
-            case "Cdr":
+            case "Messages":
+            iconName = 'chatbubbles';
+            break;
+            case "History":
             iconName = 'paper';
             break;
             case "Contacts":

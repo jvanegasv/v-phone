@@ -225,7 +225,7 @@ class CdrScreen extends Component {
 
         return (
             <View>
-                <HeaderComponent title="CDR" toggleDrawer navigation={this.props.navigation}/>
+                <HeaderComponent title="History" toggleDrawer navigation={this.props.navigation}/>
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => this.renderCdr(item)}

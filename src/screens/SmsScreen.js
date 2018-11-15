@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text} from 'react-native';
+import { View} from 'react-native';
+
+import HeaderComponent from '../components/HeaderComponent';
+import LoadingComponent from '../components/LoadingComponent';
 
 class SmsScreen extends Component {
 
     render() { 
         return (  
             <View>
-                <Text>SmsScreen</Text>
+                <HeaderComponent title="Messages" toggleDrawer navigation={this.props.navigation}/>
             </View>
         );
     }
