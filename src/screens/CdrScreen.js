@@ -20,6 +20,7 @@ class CdrScreen extends Component {
     state = {
         data: [],
         _loading: false,
+        _refreshing: false,
         page: 0,
         showModal: false,
         pcall: {},
@@ -62,6 +63,7 @@ class CdrScreen extends Component {
                     },() => {
                         this.setState({
                             _loading: false,
+                            _refreshing: false,
                             page: response.data.cdr.length > 0 ? this.state.page + 1: -1
                         });
                     });
@@ -69,7 +71,7 @@ class CdrScreen extends Component {
             }
             catch(e) {
         
-                this.setState({_loading: false});
+                this.setState({_loading: false, _refreshing: false});
     
                 Toast.show({
                     text: "" + e,
@@ -232,6 +234,10 @@ class CdrScreen extends Component {
                     keyExtractor={item => item.pcall_id}
                     ListFooterComponent={this.state._loading? <LoadingComponent text="Loading data..."/>: null}
                     onEndReached={() => this.loadData()}
+                    onRefresh={() => {
+                        this.setState({page: 0, data: [], _refreshing: true}, () => this.loadData())
+                    }}
+                    refreshing={this.state._refreshing}
                 />
                 <View style={{flex: 1,justifyContent: "center",alignItems: "center"}}>
                     <Modal isVisible={this.state.showModal}>

@@ -17,6 +17,7 @@ class SmsScreen extends Component {
     state = {
         data: [],
         _loading: false,
+        _refreshing: false,
         page: 0,
     }
 
@@ -51,6 +52,7 @@ class SmsScreen extends Component {
                     },() => {
                         this.setState({
                             _loading: false,
+                            _refreshing: false,
                             page: response.data.summary.length > 0 ? this.state.page + 1: -1
                         });
                     });
@@ -58,7 +60,7 @@ class SmsScreen extends Component {
             }
             catch(e) {
         
-                this.setState({_loading: false});
+                this.setState({_loading: false, _refreshing: false});
     
                 Toast.show({
                     text: "" + e,
@@ -132,6 +134,10 @@ class SmsScreen extends Component {
                     keyExtractor={item => item.sms_id}
                     ListFooterComponent={this.state._loading? <LoadingComponent text="Loading data..."/>: null}
                     onEndReached={() => this.loadData()}
+                    onRefresh={() => { 
+                        this.setState({page: 0, data: [], _refreshing: true}, () => this.loadData());
+                    }}
+                    refreshing={this.state._refreshing}
                 />
             </View>
         );
