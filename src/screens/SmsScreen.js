@@ -89,9 +89,9 @@ class SmsScreen extends Component {
                     <Thumbnail source={{ uri: 'https://voip-communications.net/countries-flags/' + country + '.png' }} />
                 </Left>
                 <Body>
-                    <Text>{this.searchInContacts(number)} ({direction})</Text>
-                    <Text note numberOfLines={1}>{ moment(msg.sms_status_date).format('MM/DD/YYYY hh:mm A')} - ${numeral(cost).format('0,0.00')}</Text>
-                    <Text>{msg.sms_msg}</Text>
+                    <Text onPress={() => this.props.navigation.navigate('smsChat')}>{this.searchInContacts(number)} ({direction})</Text>
+                    <Text onPress={() => this.props.navigation.navigate('smsChat')} note numberOfLines={1}>{ moment(msg.sms_status_date).format('MM/DD/YYYY hh:mm A')} - ${numeral(cost).format('0,0.00')}</Text>
+                    <Text onPress={() => this.props.navigation.navigate('smsChat')}>{msg.sms_msg}</Text>
                 </Body>
             </ListItem>
         )

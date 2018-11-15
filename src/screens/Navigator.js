@@ -14,6 +14,7 @@ import PhoneScreen2 from './PhoneScreen2';
 import RegisterScreen from './RegisterScreen';
 import SettingsScreen from './SettingsScreen';
 import SmsScreen from './SmsScreen';
+import SmschatScreen from './SmschatScreen';
 import WelcomeScreen from './WelcomeScreen';
 import RateScreen from './RateScreen';
 import ProfileScreen from './ProfileScreen';
@@ -23,10 +24,18 @@ const loginNavigation = createStackNavigator({
     Register: RegisterScreen
 });
 
+const smsNavigation = createStackNavigator({
+    smsSummary: SmsScreen,
+    smsChat: SmschatScreen
+},{
+    initialRouteName: "smsSummary",
+    headerMode: "none"
+});
+
 const mainTabsNavigation = createBottomTabNavigator({
     // Phone: PhoneScreen2,
     Phone: PhoneScreen,
-    Messages: SmsScreen,
+    Messages: smsNavigation,
     History: CdrScreen,
     Contacts: ContactsScreen
 },
