@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList} from 'react-native';
-import {Text, Toast, ListItem, Left, Thumbnail, Body, Right, Button, Icon, Fab} from 'native-base';
+import {Text, Toast, ListItem, Left, Thumbnail, Body, Icon, Fab} from 'native-base';
 
 import HeaderComponent from '../components/HeaderComponent';
 import LoadingComponent from '../components/LoadingComponent';
@@ -91,11 +91,6 @@ class SmsScreen extends Component {
                     <Text note numberOfLines={1}>{ moment(msg.sms_status_date).format('MM/DD/YYYY hh:mm A')} - ${numeral(cost).format('0,0.00')}</Text>
                     <Text>{msg.sms_msg}</Text>
                 </Body>
-                <Right style={{flexDirection:'row'}}>
-                    <Button transparent onPress={() => this.props.navigation.navigate('Phone',{callTo: number})}>
-                        <Icon name='chatbubbles'/>
-                    </Button>
-                </Right>
             </ListItem>
         )
 
@@ -134,7 +129,7 @@ class SmsScreen extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({item}) => this.renderSms(item)}
-                    keyExtractor={item => item.sms_external}
+                    keyExtractor={item => item.sms_id}
                     ListFooterComponent={this.state._loading? <LoadingComponent text="Loading data..."/>: null}
                     onEndReached={() => this.loadData()}
                 />

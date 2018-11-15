@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {View, PermissionsAndroid, Platform, FlatList} from 'react-native';
-import { Content, ListItem, Text, Button, Icon, Body, Card, CardItem} from 'native-base';
+import { ListItem, Text, Button, Icon, Body, Card, CardItem} from 'native-base';
 
 import Contacts from 'react-native-contacts';
 
@@ -154,11 +154,11 @@ class ContactsScreen extends Component {
 
     render() { 
         return (  
-            <Content>
+            <View>
                 <HeaderComponent title="Contacts" toggleDrawer navigation={this.props.navigation}/>
                 {this.showGiveMePermissions()}        
                 {this.showContacts()}
-            </Content>
+            </View>
         );
     }
 }
