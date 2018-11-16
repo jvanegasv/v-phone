@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, FlatList} from 'react-native';
 import {Text, Toast, ListItem, Left, Thumbnail, Body, Icon, Header, Right, Title, Button} from 'native-base';
 
-import HeaderComponent from '../components/HeaderComponent';
 import LoadingComponent from '../components/LoadingComponent';
 
 import { connect } from 'react-redux';
@@ -75,7 +74,13 @@ class SmsScreen extends Component {
 
         this.loadData();
         
-    }    
+    }   
+    
+    loadChat = (contact, internal,external) => {
+
+        console.log('nav_params: ',contact, internal, external);
+        this.props.navigation.navigate('smsChat',{contact, internal, external});
+    }
 
     renderSms = (msg) => {
 
@@ -83,15 +88,16 @@ class SmsScreen extends Component {
         const direction = msg.sms_status;
         const number = msg.sms_external;
         const cost = msg.sms_sale * 1;
+        const contact = this.searchInContacts(number);
         return (
             <ListItem thumbnail>
                 <Left>
                     <Thumbnail source={{ uri: 'https://voip-communications.net/countries-flags/' + country + '.png' }} />
                 </Left>
                 <Body>
-                    <Text onPress={() => this.props.navigation.navigate('smsChat')}>{this.searchInContacts(number)} ({direction})</Text>
-                    <Text onPress={() => this.props.navigation.navigate('smsChat')} note numberOfLines={1}>{ moment(msg.sms_status_date).format('MM/DD/YYYY hh:mm A')} - ${numeral(cost).format('0,0.00')}</Text>
-                    <Text onPress={() => this.props.navigation.navigate('smsChat')}>{msg.sms_msg}</Text>
+                    <Text onPress={() => this.loadChat(contact,msg.sms_internal,msg.sms_external)}>{contact} ({direction})</Text>
+                    <Text onPress={() => this.loadChat(contact,msg.sms_internal,msg.sms_external)} note numberOfLines={1}>{ moment(msg.sms_status_date).format('MM/DD/YYYY hh:mm A')} - ${numeral(cost).format('0,0.00')}</Text>
+                    <Text onPress={() => this.loadChat(contact,msg.sms_internal,msg.sms_external)}>{msg.sms_msg}</Text>
                 </Body>
             </ListItem>
         )
@@ -117,7 +123,7 @@ class SmsScreen extends Component {
 
     render() { 
         return (  
-            <View style={{ flex: 1 }}>
+            <View>
                 <Header>
                     <Left/>
                     <Body>
