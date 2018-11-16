@@ -106,7 +106,49 @@ class SmschatScreen extends Component {
 
     }
 
-    onSend = () => {
+    onSend = async (messages) => {
+
+        console.log('enviar...',messages);
+
+        const postData = new FormData();
+        if (this.state.internal != '18772234078') {
+            postData.append('from',this.state.internal);
+        }
+        postData.append('to',this.state.external);
+        postData.append('msg',messages[0].text);
+
+        try {
+    
+            const response = await axios({
+                url: 'https://voip-communications.net/api-v2/index.php/sms/send',
+                method: 'POST',
+                data: postData,
+                auth: {
+                    username: this.props.user.user_api_key,
+                    password: this.props.user.user_api_pwd
+                }
+            });
+
+            if (response.data.error) {
+                Toast.show({
+                    text: response.data.error_message,
+                    type: "danger"
+                })
+            } else {
+                this.setState({
+                    data: [...messages,...this.state.data], 
+                });
+            }
+        }
+        catch(e) {
+    
+            this.setState({_loading: false, _refreshing: false});
+
+            Toast.show({
+                text: "" + e,
+                type: "danger"
+            })
+        }
 
     }
 
