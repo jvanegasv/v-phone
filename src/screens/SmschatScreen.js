@@ -2,18 +2,19 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Header, Left, Right, Body, Button, Icon, Title, Text, Subtitle, Toast } from 'native-base';
 
+import LoadingComponent from '../components/LoadingComponent';
+
+import { GiftedChat } from 'react-native-gifted-chat'
+
 import { connect } from 'react-redux';
 
 import axios from 'axios';
-
-import moment from 'moment';
-import numeral from 'numeral';
 
 class SmschatScreen extends Component {
 
     
     state = {
-        _loading: false,
+        _loading: true,
         _refreshing: false,
         internal: '',
         external: '',
@@ -70,14 +71,25 @@ class SmschatScreen extends Component {
                     })
                 } else {
                     console.log('chat', response.data);
+                    messagesParsed = [];
+                    response.data.chat.forEach(element => {
+                        const user = (element.sms_inout == 'OUT')? {_id: 1} : {_id: 2};
+                        messagesParsed.push({
+                            _id: Number(element.sms_id),
+                            text: element.sms_msg,
+                            createdAt: new Date(element.sms_status_date),
+                            user: user
+                        });
+                    });
                     this.setState({
-                        data: [...this.state.data,...response.data.chat], 
+                        data: [...this.state.data,...messagesParsed], 
                     },() => {
                         this.setState({
                             _loading: false,
                             _refreshing: false,
                             page: response.data.chat.length > 0 ? this.state.page + 1: -1
                         });
+                        console.log('data: ',this.state.data);
                     });
                 }
             }
@@ -94,10 +106,14 @@ class SmschatScreen extends Component {
 
     }
 
+    onSend = () => {
+
+    }
+
     render() { 
 
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <Header>
                     <Left>
                         <Button transparent onPress={() => this.props.navigation.goBack()}>
@@ -115,7 +131,16 @@ class SmschatScreen extends Component {
                         </Button>
                     </Right> 
                 </Header>
-                <Text>SmschatScreen between {this.state.internal} and {this.state.external}</Text>
+                {this.state._loading? <LoadingComponent/>: null}
+                <GiftedChat
+                    messages={this.state.data}
+                    onSend={messages => this.onSend(messages)}
+                    user={{
+                    _id: 1,
+                    }}
+                    loadEarlier={this.state.page >= 0}
+                    onLoadEarlier={() => this.loadData()}
+                />
             </View>
         );
     }
