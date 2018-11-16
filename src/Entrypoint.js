@@ -11,7 +11,7 @@ import axios from 'axios';
 import firebase from 'react-native-firebase'
 
 import { connect } from 'react-redux';
-import { epPjsipInit, epPjsipOnRegistrationChanged, epPjsipOnConnectivityChanged, epPjsipOnCallReceived, epPjsipOnCallChanged, epPjsipOnCallTerminated, epPjsipOnCallScreenLocked, epPjsipOnCallDuration, otherDevToken } from './store/Actions';
+import { epPjsipInit, epPjsipOnRegistrationChanged, epPjsipOnConnectivityChanged, epPjsipOnCallReceived, epPjsipOnCallChanged, epPjsipOnCallTerminated, epPjsipOnCallScreenLocked, epPjsipOnCallDuration, otherDevToken, smsInit } from './store/Actions';
 
 import moment from 'moment';
 
@@ -23,6 +23,7 @@ class Entrypoint extends Component {
 
         this.registerPjSip();
         this.fbGetToken();
+        this.props.smsInit();
     }
 
     componentDidMount() {
@@ -214,4 +215,4 @@ const mapStateToProps = (state) => {
         other: state.other
     }
 }
-export default connect(mapStateToProps,{epPjsipInit, epPjsipOnRegistrationChanged, epPjsipOnConnectivityChanged, epPjsipOnCallReceived, epPjsipOnCallChanged, epPjsipOnCallTerminated, epPjsipOnCallScreenLocked, epPjsipOnCallDuration, otherDevToken })(Entrypoint);
+export default connect(mapStateToProps,{epPjsipInit, epPjsipOnRegistrationChanged, epPjsipOnConnectivityChanged, epPjsipOnCallReceived, epPjsipOnCallChanged, epPjsipOnCallTerminated, epPjsipOnCallScreenLocked, epPjsipOnCallDuration, otherDevToken, smsInit })(Entrypoint);

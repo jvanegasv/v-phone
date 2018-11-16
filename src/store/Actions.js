@@ -1,3 +1,4 @@
+///// USER STORE /////
 export const usrPassword = (password) => {
     return {
         type: "USR_PASSWORD",
@@ -18,6 +19,8 @@ export const usrLogout = () => {
     }
 }
 
+
+///// ENDPOINT STORE /////
 export const epPjsipInit = (pjsip) => {
     return {
         type: "EP_PJSIPINIT",
@@ -36,7 +39,6 @@ export const epPjsipAccount = (account) => {
         data: account
     }
 }
-
 export const epPjsipOnRegistrationChanged = (account) => {
     return {
         type: "EP_PJSIPOnRegistrationChanged",
@@ -87,28 +89,44 @@ export const epPjsipOtherState = (newState) => {
 }
 
 
+///// SMS STORE /////
+export const smsInit = () => {
+    return {
+        type: "SMS_INIT"
+    }
+}
+export const smsSummaryInit = () => {
+    return {
+        type: "SMS_SUMMARY_INIT"
+    }
+}
+export const smsSummaryAdd = (messages) => {
+    return {
+        type: "SMS_SUMMARY_ADD",
+        data: messages
+    }
+}
 
+
+///// OTHER STORE /////
 export const otherCountries = (countries) => {
     return {
         type: "OTHER_COUNTRIES",
         data: countries
     }
 }
-
 export const otherTimezones = (timezones) => {
     return {
         type: "OTHER_TIMEZONES",
         data: timezones
     }
 }
-
 export const otherContacts = (contacts) => {
     return {
         type: "OTHER_CONTACTS",
         data: contacts
     }
 }
-
 export const otherDevToken = (token) => {
     return {
         type: "OTHER_DEVTOKEN",

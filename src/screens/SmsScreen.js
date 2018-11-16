@@ -5,6 +5,7 @@ import {Text, Toast, ListItem, Left, Thumbnail, Body, Icon, Header, Right, Title
 import LoadingComponent from '../components/LoadingComponent';
 
 import { connect } from 'react-redux';
+import {smsSummaryInit,smsSummaryAdd} from '../store/Actions';
 
 import axios from 'axios';
 
@@ -14,7 +15,6 @@ import numeral from 'numeral';
 class SmsScreen extends Component {
 
     state = {
-        data: [],
         _loading: false,
         _refreshing: false,
         page: 0,
@@ -46,14 +46,11 @@ class SmsScreen extends Component {
                     })
                 } else {
                     console.log('summary', response.data);
+                    this.props.smsSummaryAdd(response.data.summary);
                     this.setState({
-                        data: [...this.state.data,...response.data.summary], 
-                    },() => {
-                        this.setState({
-                            _loading: false,
-                            _refreshing: false,
-                            page: response.data.summary.length > 0 ? this.state.page + 1: -1
-                        });
+                        _loading: false,
+                        _refreshing: false,
+                        page: response.data.summary.length > 0 ? this.state.page + 1: -1
                     });
                 }
             }
@@ -139,13 +136,14 @@ class SmsScreen extends Component {
                     </Right> 
                 </Header>
                 <FlatList
-                    data={this.state.data}
+                    data={this.props.sms.summary}
                     renderItem={({item}) => this.renderSms(item)}
                     keyExtractor={item => item.sms_id}
                     ListFooterComponent={this.state._loading? <LoadingComponent text="Loading data..."/>: null}
                     onEndReached={() => this.loadData()}
                     onRefresh={() => { 
-                        this.setState({page: 0, data: [], _refreshing: true}, () => this.loadData());
+                        this.props.smsSummaryInit();
+                        this.setState({page: 0, _refreshing: true}, () => this.loadData());
                     }}
                     refreshing={this.state._refreshing}
                 />
@@ -158,8 +156,9 @@ const mapStateToProps = (state) => {
 
     return {
         user: state.user,
+        sms: state.sms,
         contacts: state.other.contacts
     }
 }
  
-export default connect(mapStateToProps)(SmsScreen);
+export default connect(mapStateToProps,{smsSummaryInit,smsSummaryAdd})(SmsScreen);
