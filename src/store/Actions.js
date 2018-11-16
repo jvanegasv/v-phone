@@ -106,6 +106,27 @@ export const smsSummaryAdd = (messages) => {
         data: messages
     }
 }
+export const smsChatInit = (chatKey,messages) => {
+    return {
+        type: "SMS_CHAT_INIT",
+        data: {
+            chatKey,
+            messages
+        }
+    }
+}
+export const smsChatEarlier = (messages) => {
+    return {
+        type: "SMS_CHAT_EARLIER",
+        data: messages
+    }
+}
+export const smsChatAdd = (message) => {
+    return {
+        type: "SMS_CHAT_ADD",
+        data: message
+    }
+}
 
 
 ///// OTHER STORE /////

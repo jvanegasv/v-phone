@@ -7,6 +7,7 @@ import LoadingComponent from '../components/LoadingComponent';
 import { GiftedChat } from 'react-native-gifted-chat'
 
 import { connect } from 'react-redux';
+import { smsChatInit, smsChatEarlier, smsChatAdd } from '../store/Actions';
 
 import axios from 'axios';
 
@@ -38,6 +39,7 @@ class SmschatScreen extends Component {
         const external = this.props.navigation.getParam('external', 'XXXXXXXXXX');
         if (internal != 'XXXXXXXXXX' || external != 'XXXXXXXXXX') {
             this.props.navigation.setParams({contact: '', internal: 'XXXXXXXXXX', external: 'XXXXXXXXXX'});
+            this.props.smsChatInit(internal + external,[]);
             this.setState({contact, internal, external},() => this.loadData());
         }
 
@@ -81,15 +83,11 @@ class SmschatScreen extends Component {
                             user: user
                         });
                     });
+                    this.props.smsChatEarlier(messagesParsed);
                     this.setState({
-                        data: [...this.state.data,...messagesParsed], 
-                    },() => {
-                        this.setState({
-                            _loading: false,
-                            _refreshing: false,
-                            page: response.data.chat.length > 0 ? this.state.page + 1: -1
-                        });
-                        console.log('data: ',this.state.data);
+                        _loading: false,
+                        _refreshing: false,
+                        page: response.data.chat.length > 0 ? this.state.page + 1: -1
                     });
                 }
             }
@@ -135,9 +133,7 @@ class SmschatScreen extends Component {
                     type: "danger"
                 })
             } else {
-                this.setState({
-                    data: [...messages,...this.state.data], 
-                });
+                this.props.smsChatAdd(messages[0]);
             }
         }
         catch(e) {
@@ -175,7 +171,7 @@ class SmschatScreen extends Component {
                 </Header>
                 {this.state._loading? <LoadingComponent/>: null}
                 <GiftedChat
-                    messages={this.state.data}
+                    messages={this.props.sms.chatMessages}
                     onSend={messages => this.onSend(messages)}
                     user={{
                     _id: 1,
@@ -192,7 +188,8 @@ const mapStateToProps = (state) => {
 
     return {
         user: state.user,
+        sms: state.sms
     }
 }
  
-export default connect(mapStateToProps)(SmschatScreen);
+export default connect(mapStateToProps,{smsChatInit,smsChatEarlier,smsChatAdd})(SmschatScreen);
